@@ -45,38 +45,32 @@ public class GenerateStJsTask extends ConventionTask implements PatternFilterabl
 
 	/**
 	 * The list of packages that can be referenced from the classes that will be processed by the generator
-	 *
-	 * @parameter
 	 */
 	protected List<String> allowedPackages;
 
 	/**
 	 * Sets the granularity in milliseconds of the last modification date for testing whether a source needs
-	 * recompilation.
-	 * <p/>
+	 * recompilation.<br>
 	 * default-value="0"
 	 */
 	private int staleMillis;
 
 	/**
-	 * If true the check, if (!array.hasOwnProperty(index)) continue; is added in each "for" array iteration
-	 * <p/>
+	 * If true the check, if (!array.hasOwnProperty(index)) continue; is added in each "for" array iteration<br>
 	 * default-value="true"
 	 */
 	private boolean generateArrayHasOwnProperty = true;
 
 	/**
 	 * If true, it generates for each JavaScript the corresponding source map back to the corresponding Java file. It
-	 * also copies the Java source file in the same folder as the generated Javascript file.
-	 * <p/>
+	 * also copies the Java source file in the same folder as the generated Javascript file.<br>
 	 * default-value="false"
 	 */
 	private boolean generateSourceMap;
 
 	/**
 	 * If true, it packs all the generated Javascript file (using the correct dependency order) into a single file named
-	 * <artifactName>.js
-	 * <p/>
+	 * artifactName.js<br>
 	 * default-value="false"
 	 */
 	protected boolean pack;
@@ -519,6 +513,8 @@ public class GenerateStJsTask extends ConventionTask implements PatternFilterabl
 
 	/**
 	 * Returns the classpath
+	 *
+	 * @return a {@link FileCollection} representing all classpath elements
 	 */
 	@InputFiles
 	public FileCollection getClasspath() {
@@ -527,6 +523,8 @@ public class GenerateStJsTask extends ConventionTask implements PatternFilterabl
 
 	/**
 	 * Set the classpath
+	 *
+	 * @param classpath a {@link FileCollection} to overwrite the actual classpath elements
 	 */
 	public void setClasspath(final FileCollection classpath) {
 		this.classpath = classpath;
@@ -534,6 +532,8 @@ public class GenerateStJsTask extends ConventionTask implements PatternFilterabl
 
 	/**
 	 * Set the classpath
+	 *
+	 * @param classpath a {@link FileCollection} to overwrite the actual classpath elements
 	 */
 	public void classpath(final FileCollection classpath) {
 		this.classpath = classpath;
