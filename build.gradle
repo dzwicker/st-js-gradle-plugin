@@ -3,6 +3,7 @@ defaultTasks 'clean', 'check', 'assemble'
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'nexus'
+apply plugin: 'release'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.12'
@@ -29,6 +30,8 @@ buildscript {
 
     dependencies {
         classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.7.1'
+        classpath 'com.github.townsfolk:gradle-release:1.2'
+
     }
 }
 
@@ -60,6 +63,8 @@ dependencies {
 
     compile group: 'org.st-js', name: 'generator', version: '3.0.1'
 }
+
+createReleaseTag.dependsOn uploadArchives
 
 modifyPom {
     project {
