@@ -1,7 +1,8 @@
-defaultTasks 'clean', 'check'
+defaultTasks 'clean', 'check', 'assemble'
 
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'nexus'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.12'
@@ -16,8 +17,21 @@ ext {
     slf4j_version = '1.7.2'
 }
 
+group = 'com.github.dzwicker.stjs.gradle'
+version = '0.0.1'
+
 compileJava.options.encoding = defaultEncoding
 compileTestJava.options.encoding = defaultEncoding
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.7.1'
+    }
+}
 
 idea {
     module {
@@ -46,4 +60,35 @@ dependencies {
     compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: slf4j_version
 
     compile group: 'org.st-js', name: 'generator', version: '3.0.1'
+}
+
+modifyPom {
+    project {
+        name 'Gradle ST-JS plugin'
+        description 'Gradle plugin that provides tasks to compile java classes with the st-js generator to javascript.'
+        url 'https://github.com/dzwicker/st-js-gradle-plugin'
+        inceptionYear '2014'
+
+        scm {
+            url 'https://github.com/dzwicker/st-js-gradle-plugin'
+            connection 'scm:https://dzwicker@github.com/dzwicker/st-js-gradle-plugin'
+            developerConnection 'scm:git://github.com/dzwicker/st-js-gradle-plugin'
+        }
+
+        licenses {
+            license {
+                name 'The Apache Software License, Version 2.0'
+                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                distribution 'repo'
+            }
+        }
+
+        developers {
+            developer {
+                id 'dzwicker'
+                name 'Daniel Zwicker'
+                email 'email-at-daniel-zwicker-com'
+            }
+        }
+    }
 }
