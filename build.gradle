@@ -11,6 +11,7 @@ def defaultEncoding = 'UTF-8'
 ext {
     sourceCompatibility = javaVersion
     targetCompatibility = javaVersion
+    slf4j_version = '1.7.2'
 }
 
 compileJava.options.encoding = defaultEncoding
@@ -38,4 +39,8 @@ dependencies {
     
     compile gradleApi()
 
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: slf4j_version
+    compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: slf4j_version
+
+    compile group: 'org.st-js', name: 'generator', version: '3.0.1'
 }
