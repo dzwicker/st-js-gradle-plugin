@@ -18,7 +18,6 @@ ext {
 }
 
 group = 'com.github.dzwicker.stjs.gradle'
-version = '0.0.1'
 
 compileJava.options.encoding = defaultEncoding
 compileTestJava.options.encoding = defaultEncoding
