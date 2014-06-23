@@ -1,3 +1,5 @@
+defaultTasks 'clean', 'check'
+
 apply plugin: 'java'
 apply plugin: 'idea'
 
@@ -33,10 +35,11 @@ idea {
 
 repositories {
     mavenLocal()
+    mavenCentral()
 }
 
 dependencies {
-    
+
     compile gradleApi()
 
     compile group: 'org.slf4j', name: 'slf4j-simple', version: slf4j_version

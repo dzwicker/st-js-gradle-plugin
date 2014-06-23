@@ -1,0 +1,6 @@
+language: java
+install: ""
+script: TERM=dumb ./gradlew
+jdk:
+    - openjdk7
+    - oraclejdk7
