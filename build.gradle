@@ -69,6 +69,7 @@ createReleaseTag.dependsOn uploadArchives
 modifyPom {
     project {
         name 'Gradle ST-JS plugin'
+        packaging 'jar'
         description 'Gradle plugin that provides tasks to compile java classes with the st-js generator to javascript.'
         url 'https://github.com/dzwicker/st-js-gradle-plugin'
         inceptionYear '2014'
