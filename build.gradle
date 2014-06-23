@@ -1,0 +1,41 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.12'
+}
+
+def javaVersion = 1.7
+def defaultEncoding = 'UTF-8'
+
+ext {
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+}
+
+compileJava.options.encoding = defaultEncoding
+compileTestJava.options.encoding = defaultEncoding
+
+idea {
+    module {
+
+        //if you prefer different output folders
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main")
+        testOutputDir = file("$buildDir/classes/test")
+        downloadJavadoc = true
+        downloadSources = true
+
+        excludeDirs += [file(".gradle")]
+    }
+}
+
+repositories {
+    mavenLocal()
+}
+
+dependencies {
+    
+    compile gradleApi()
+
+}
