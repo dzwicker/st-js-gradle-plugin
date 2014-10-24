@@ -1,7 +1,7 @@
 
 # Gradle STJS plugin
-
 [![Build Status](https://travis-ci.org/dzwicker/st-js-gradle-plugin.png)](https://travis-ci.org/dzwicker/st-js-gradle-plugin)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/dzwicker/st-js-gradle-plugin/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 Gradle plugin to make it easy to compile Strongly-Typed Javascript.
 
