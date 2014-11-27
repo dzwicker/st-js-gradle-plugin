@@ -76,6 +76,3 @@ The plugin adds the ```stjs``` task to the project.
 ### 3.0.1 (23 June 2014)
 The first public release of the plugin it will work with stjs 3.0.1.
 
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/dzwicker/st-js-gradle-plugin/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
