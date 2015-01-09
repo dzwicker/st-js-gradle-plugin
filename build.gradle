@@ -61,7 +61,7 @@ dependencies {
     compile group: 'org.slf4j', name: 'slf4j-simple', version: slf4j_version
     compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: slf4j_version
 
-    compile group: 'org.st-js', name: 'generator', version: '3.0.1'
+    compile group: 'org.st-js', name: 'generator', version: '3.0.3'
 }
 
 createReleaseTag.dependsOn uploadArchives
