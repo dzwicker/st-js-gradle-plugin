@@ -2,14 +2,14 @@ defaultTasks 'clean', 'check', 'assemble'
 
 apply plugin: 'java'
 apply plugin: 'idea'
-apply plugin: 'nexus'
-apply plugin: 'release'
+apply plugin: 'net.researchgate.release'
+apply plugin: 'com.bmuschko.nexus'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.2.1'
 }
 
-def javaVersion = 1.7
+def javaVersion = 1.8
 def defaultEncoding = 'UTF-8'
 
 ext {
@@ -29,9 +29,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.7.1'
-        classpath 'com.github.townsfolk:gradle-release:1.2'
-
+        classpath 'net.researchgate:gradle-release:2.0.0'
+        classpath 'com.bmuschko:gradle-nexus-plugin:2.3'
     }
 }
 
@@ -66,6 +65,15 @@ dependencies {
 
 createReleaseTag.dependsOn uploadArchives
 
+extraArchive {
+    sources = true
+    tests = false
+    javadoc = true
+}
+
+nexus {
+    sign = true
+}
 modifyPom {
     project {
         name 'Gradle ST-JS plugin'
