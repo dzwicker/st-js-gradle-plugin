@@ -6,7 +6,7 @@ apply plugin: 'net.researchgate.release'
 apply plugin: 'com.bmuschko.nexus'
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.2.1'
+    gradleVersion = '2.8'
 }
 
 def javaVersion = 1.8
@@ -49,7 +49,6 @@ idea {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
 }
 
@@ -61,6 +60,7 @@ dependencies {
     compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: slf4j_version
 
     compile group: 'org.st-js', name: 'generator', version: '3.2.2'
+    compile group: 'com.google.guava', name: 'guava', version: '17.0'
 }
 
 createReleaseTag.dependsOn uploadArchives
