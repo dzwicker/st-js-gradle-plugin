@@ -35,6 +35,7 @@ import org.stjs.generator.MultipleFileGenerationException;
 
 import groovy.lang.Closure;
 
+@SuppressWarnings("unused")
 public class GenerateStJsTask extends ConventionTask implements PatternFilterable {
 
 	private static final Logger logger = LoggerFactory.getLogger(GenerateStJsTask.class);
@@ -98,11 +99,13 @@ public class GenerateStJsTask extends ConventionTask implements PatternFilterabl
 		final GenerationDirectory genDir = getGeneratedSourcesDirectory();
 
 		long t1 = System.currentTimeMillis();
-		logger.info("Generating JavaScript files to " + genDir.getAbsolutePath());
-
-		final ClassLoader builtProjectClassLoader = getBuiltProjectClassLoader();
+		logger.info("Generating JavaScript files to " + genDir.getGeneratedSourcesAbsolutePath());
 
 		GeneratorConfigurationBuilder configBuilder = new GeneratorConfigurationBuilder();
+		configBuilder.stjsClassLoader(getBuiltProjectClassLoader());
+		configBuilder.generationFolder(genDir);
+		configBuilder.targetFolder(output.getClassesDir());
+
 		configBuilder.generateArrayHasOwnProperty(generateArrayHasOwnProperty);
 		configBuilder.generateSourceMap(generateSourceMap);
 		configBuilder.sourceEncoding(encoding);
@@ -120,8 +123,7 @@ public class GenerateStJsTask extends ConventionTask implements PatternFilterabl
 		configBuilder.allowedPackages(packages);
 
 		final GeneratorConfiguration configuration = configBuilder.build();
-		final Generator generator = new Generator();
-		generator.init(builtProjectClassLoader, encoding);
+		final Generator generator = new Generator(configuration);
 
 		final int[] generatedFiles = {0};
 		final boolean[] hasFailures = new boolean[1];
@@ -164,12 +166,8 @@ public class GenerateStJsTask extends ConventionTask implements PatternFilterabl
 
 				try {
 					generator.generateJavascript(
-							builtProjectClassLoader,
 							className,
-							sourceDir,
-							genDir,
-							output.getClassesDir(),
-							configuration
+							sourceDir
 					);
 					++generatedFiles[0];
 				} catch (MultipleFileGenerationException e) {
@@ -216,7 +214,7 @@ public class GenerateStJsTask extends ConventionTask implements PatternFilterabl
 		long t2 = System.currentTimeMillis();
 		logger.info("Generated " + generatedFiles[0] + " JavaScript files in " + (t2 - t1) + " ms");
 		if (generatedFiles[0] > 0) {
-			filesGenerated(generator, genDir);
+			filesGenerated(generator);
 		}
 
 		if (hasFailures[0]) {
@@ -224,10 +222,10 @@ public class GenerateStJsTask extends ConventionTask implements PatternFilterabl
 		}
 	}
 
-	protected void filesGenerated(final Generator generator, final GenerationDirectory genDir) {
+	protected void filesGenerated(final Generator generator) {
 		// copy the javascript support
 		try {
-			generator.copyJavascriptSupport(getGeneratedSourcesDirectory().getAbsolutePath());
+			generator.copyJavascriptSupport(getGeneratedSourcesDirectory().getGeneratedSourcesAbsolutePath());
 		} catch (Exception ex) {
 			throw new RuntimeException("Error when copying support files:" + ex.getMessage(), ex);
 		}
@@ -331,8 +329,9 @@ public class GenerateStJsTask extends ConventionTask implements PatternFilterabl
 	}
 
 	private String getClassNameForSource(String sourcePath) {
-		// remove ending .java and replace / by .
-		return sourcePath.substring(0, sourcePath.length() - 5).replace(File.separatorChar, '.');
+		// remove ending .java and replace / or \ by .
+		// (only using File.separatorChar is not enough see https://github.com/dzwicker/st-js-gradle-plugin/issues/3)
+		return sourcePath.substring(0, sourcePath.length() - 5).replace('/', '.').replace('\\', '.');
 	}
 
 //    //TODO howto handle stale in gradle???
@@ -452,7 +451,7 @@ public class GenerateStJsTask extends ConventionTask implements PatternFilterabl
 	public GenerationDirectory getGeneratedSourcesDirectory() {
 		final File classpath = null;
 		final File relativeToClasspath = new File("/");
-		return new GenerationDirectory(generatedSourcesDirectory, classpath, relativeToClasspath);
+		return new GenerationDirectory(generatedSourcesDirectory, classpath, relativeToClasspath.toURI());
 	}
 
 	public List<String> getAllowedPackages() {
